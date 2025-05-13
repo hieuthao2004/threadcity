@@ -83,10 +83,10 @@ const GetAllPosts = ({ currentUserId }) => {
                   alt="Post content"
                   className="post-image"
                   onError={(e) => {
-                    e.target.onerror = null; // Prevent infinite error loop
-                    e.target.style.display = 'none'; // Hide broken images
+                    e.target.onerror = null;
+                    e.target.style.display = 'none';
                   }}
-                  loading="lazy" // Add lazy loading for better performance
+                  loading="lazy"
                 />
               </div>
             )}

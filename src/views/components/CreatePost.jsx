@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { io } from 'socket.io-client'
-import '../../assets/styles/CreatePost.css';
 
 const CreatePost = ({ onPostCreated }) => {
   // State management

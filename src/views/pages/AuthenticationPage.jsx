@@ -8,26 +8,21 @@ const AuthenticationPage = ({ setAuthenticated, isAuthenticated }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
 
   const fetchLogin = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    
+
     try {
       const response = await axios.post("http://localhost:3001/api/auth", { username, password }, {
         withCredentials: true
       });
-      if (response.data.message === "Logged in") {
+      console.log(response.data.message);
+      
+      if (response.data.message === "Logged in successfully") {
         setAuthenticated(true);
-         navigate('/');
+        document.location.reload();
       }
     } catch (error) {
       console.error(error);
@@ -54,10 +49,10 @@ const AuthenticationPage = ({ setAuthenticated, isAuthenticated }) => {
         <form onSubmit={fetchLogin}>
           <div className="form-group">
             <label htmlFor="username" className="form-label">Username</label>
-            <input 
+            <input
               id="username"
               className="form-input"
-              type="text" 
+              type="text"
               placeholder="Enter your username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -68,7 +63,7 @@ const AuthenticationPage = ({ setAuthenticated, isAuthenticated }) => {
           <div className="form-group">
             <label htmlFor="password" className="form-label">Password</label>
             <div className="password-input-container">
-              <input 
+              <input
                 id="password"
                 className="form-input"
                 type={showPassword ? "text" : "password"}
@@ -77,8 +72,8 @@ const AuthenticationPage = ({ setAuthenticated, isAuthenticated }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -87,8 +82,8 @@ const AuthenticationPage = ({ setAuthenticated, isAuthenticated }) => {
             </div>
           </div>
 
-          <button 
-            className="form-button" 
+          <button
+            className="form-button"
             type="submit"
             disabled={loading}
           >

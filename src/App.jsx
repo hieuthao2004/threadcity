@@ -3,18 +3,17 @@ import './App.css'
 import {
   Routes,
   Route,
-  useLocation,
 } from 'react-router-dom';
 import Homepage from './views/pages/Homepage';
 import Register from './views/pages/Register';
 import axios from 'axios';
 import AuthenticationPage from './views/pages/AuthenticationPage';
+import SearchPage from './views/pages/SearchPage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const location = useLocation();
 
   const checkAuth = async () => {
     try {
@@ -46,15 +45,9 @@ function App() {
   };
 
 useEffect(() => {
-  const path = location.pathname;
-  const publicPaths = ['/login', '/register'];
+  checkAuth();
 
-  if (!publicPaths.includes(path)) {
-    checkAuth();
-  } else {
-    setLoading(false);
-  }
-}, [location.pathname]);
+}, []);
 
 
   if (loading) {
@@ -63,6 +56,7 @@ useEffect(() => {
 
   return (
     <Routes>
+      <Route path="/register" element={<Register />} />
       <Route
         path="/"
         element={
@@ -71,10 +65,13 @@ useEffect(() => {
             : <AuthenticationPage setAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} />
         }
       />
-      <Route path="/login" element={
-        <AuthenticationPage setAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} />
-      } />
-      <Route path="/register" element={<Register />} />
+      <Route
+        path='/searching'
+        element={
+          isAuthenticated
+            ? <SearchPage></SearchPage>
+            : <AuthenticationPage></AuthenticationPage>
+      }></Route>
     </Routes>
   );
 }

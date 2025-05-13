@@ -1,16 +1,25 @@
-.post-creator-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.post-item {
+  border: 1px solid gray;
 }
 
-.post-actions {
+.post-feed-container {
+  width: 50%;
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 8px 0;
-  margin-top: 12px;
-  border-top: 1px solid #eee;
+  flex-direction: row;
 }
 
-/* ...existing styles... */
+.post-image {
+  width: 100%;
+}
+
+.post-header {
+  height: 40%;
+}
+
+.default-avatar {
+  background-color: aliceblue;
+  width: 10%;
+  height: 10%;
+  border: 1px solid black;
+  border-radius: 50%;
+}
