@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.small-container {
+    border: 1px solid red;
+    display: flex;
+    flex-direction: row;
+    padding: 1% 0;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.logo {
+    display: none;
+    max-width: 50px;
+    height: auto;
+}
+
+.top-button {
+    width: max-content;
+    height: auto;
+    background-color: white;
+    color: black;
+    font-size: large;
+    padding: 10px 15px;
+}
+
+.top-button:hover {
+    background-color: brown;
+}
+
+/* Responsive */
+@media screen and (max-width: 700px) {
+    .logo {
+        display: block;
+    }
+}
