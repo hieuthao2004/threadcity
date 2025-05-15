@@ -2,15 +2,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { io } from 'socket.io-client'
 
-const CreatePost = ({ onPostCreated }) => {
-  // State management
+const CreatePostModal = ({ onPostCreated, showModal, setShowModal, openCreatePostModal }) => {
   const [content, setContent] = useState('')
   const [file, setFile] = useState(null)
   const [previewUrl, setPreviewUrl] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showModal, setShowModal] = useState(false)
   
   // References
   const socketRef = useRef()
@@ -25,7 +23,6 @@ const CreatePost = ({ onPostCreated }) => {
     }
   }, [])
 
-  // Handle file input change
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0]
     if (selectedFile) {
@@ -35,7 +32,6 @@ const CreatePost = ({ onPostCreated }) => {
       }
       
       setFile(selectedFile)
-      // Create preview URL
       const reader = new FileReader()
       reader.onload = () => {
         setPreviewUrl(reader.result)
@@ -44,7 +40,6 @@ const CreatePost = ({ onPostCreated }) => {
     }
   }
 
-  // Remove selected image
   const handleRemoveImage = () => {
     setFile(null)
     setPreviewUrl('')
@@ -53,7 +48,6 @@ const CreatePost = ({ onPostCreated }) => {
     }
   }
 
-  // Reset form state
   const resetForm = () => {
     setContent('')
     setFile(null)
@@ -61,20 +55,15 @@ const CreatePost = ({ onPostCreated }) => {
     setError('')
     setSuccess('')
   }
-
-  // Handle modal open/close
-  const openCreatePostModal = () => {
-    setShowModal(true)
-  }
   
   const closeCreatePostModal = () => {
-    setShowModal(false)
-    resetForm()
+    setShowModal(false);
+    resetForm();
   }
 
-  // Submit handler for post creation
+
   const handleSubmit = async (e) => {
-    if (e) e.preventDefault()
+    e.preventDefault()
     
     if (!content.trim()) {
       setError('Content cannot be empty')
@@ -85,16 +74,11 @@ const CreatePost = ({ onPostCreated }) => {
     setError('')
 
     try {
-      // Create FormData to handle file upload
       const formData = new FormData()
-      formData.append('content', content.trim())
-      
+      formData.append('content', content.trim())    
       if (file) {
         formData.append('image', file)
-      }
-      
-      console.log('Sending post data with' + (file ? '' : 'out') + ' image')
-      
+      }      
       const response = await axios.post(
         'http://localhost:3001/api/create_post', 
         formData,
@@ -106,31 +90,25 @@ const CreatePost = ({ onPostCreated }) => {
         }
       )
 
-      console.log('Server response:', response.data)
       
       if (response.status === 200) {
-        // Emit event with new post data
         socketRef.current.emit('new_post', response.data.post)
         
-        // Reset form
         setContent('')
         setFile(null)
         setPreviewUrl('')
         setSuccess('Post created successfully!')
         
-        // Call the callback to refresh posts
         if (onPostCreated) {
           onPostCreated(response.data.post)
         }
         
-        // Close modal if open
         if (showModal) {
           setTimeout(() => {
             setShowModal(false)
             setSuccess('')
           }, 1500)
         } else {
-          // Auto-clear success message
           setTimeout(() => setSuccess(''), 3000)
         }
       }
@@ -156,11 +134,9 @@ const CreatePost = ({ onPostCreated }) => {
           className="create-post-input"
           onClick={openCreatePostModal}
         >
-          <span className="create-post-placeholder">What's on your mind?</span>
         </div>
       </div>
 
-      {/* Modal for expanded post creation UI */}
       {showModal && (
         <div className="modal-overlay">
           <div className="create-post-modal">
@@ -171,29 +147,18 @@ const CreatePost = ({ onPostCreated }) => {
               >
                 Cancel
               </button>
-              <h3 className="modal-title">Create post</h3>
-              <div style={{width: '50px'}}></div> {/* Spacer for alignment */}
+              <h3 className="modal-title">New Thread</h3>
+              <div style={{width: '50px'}}></div>
             </div>
 
             <div className="modal-content">
-              <div className="modal-user-info">
-                <div className="modal-user-avatar">
-                  {/* First letter of username when available */}
-                  ?
-                </div>
-                <div>
-                  <div className="modal-username">Username</div>
-                  <div className="modal-user-context">Posting publicly</div>
-                </div>
-              </div>
-
               {error && <div className="error-message">{error}</div>}
               {success && <div className="success-message">{success}</div>}
 
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="What's on your mind?"
+                placeholder="What's new?"
                 className="modal-textarea"
                 maxLength={500}
               />
@@ -241,4 +206,4 @@ const CreatePost = ({ onPostCreated }) => {
   )
 }
 
-export default CreatePost
+export default CreatePostModal;

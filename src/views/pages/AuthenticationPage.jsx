@@ -22,6 +22,8 @@ const AuthenticationPage = ({ setAuthenticated, isAuthenticated }) => {
       
       if (response.data.message === "Logged in successfully") {
         setAuthenticated(true);
+        console.log();
+        
         document.location.reload();
       }
     } catch (error) {

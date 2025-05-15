@@ -23,12 +23,10 @@ const GetAllPosts = ({ currentUserId }) => {
       setLoading(true)
       const response = await axios.get('http://localhost:3001/api/posts', {
         withCredentials: true
-      })
-      console.log('Posts data:', response.data)
-      setPosts(response.data.allPosts || [])
-      console.log(posts);
-      
-      setError(null)
+      });
+      console.log('Posts data:', response.data);
+      setPosts(response.data.allPosts || []);      
+      setError(null);
     } catch (error) {
       console.error('Error fetching posts:', error)
       setError('Failed to load posts. Please try again later.')

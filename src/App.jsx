@@ -9,6 +9,7 @@ import Register from './views/pages/Register';
 import axios from 'axios';
 import AuthenticationPage from './views/pages/AuthenticationPage';
 import SearchPage from './views/pages/SearchPage';
+import Profilepage from './views/pages/ProfilePage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -56,7 +57,10 @@ useEffect(() => {
 
   return (
     <Routes>
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/register"
+        element={<Register />} 
+      />
       <Route
         path="/"
         element={
@@ -70,8 +74,17 @@ useEffect(() => {
         element={
           isAuthenticated
             ? <SearchPage></SearchPage>
-            : <AuthenticationPage></AuthenticationPage>
-      }></Route>
+            : <AuthenticationPage setAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} />
+      }/>
+      <Route
+        path="/:username"
+        element={
+          isAuthenticated
+          ? <Profilepage></Profilepage>
+          : <AuthenticationPage setAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated}></AuthenticationPage>
+        }
+      />
+      
     </Routes>
   );
 }
