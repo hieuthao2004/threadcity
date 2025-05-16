@@ -18,7 +18,7 @@ function App() {
 
   const checkAuth = async () => {
     try {
-      const response = await axios.get('/api/protected', {
+      const response = await axios.get('http://localhost:3001/api/protected', {
         withCredentials: true
       });
       console.log('Protected response:', response.data);
@@ -45,10 +45,9 @@ function App() {
     }
   };
 
-useEffect(() => {
-  checkAuth();
-
-}, []);
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
 
   if (loading) {
@@ -59,7 +58,7 @@ useEffect(() => {
     <Routes>
       <Route
         path="/register"
-        element={<Register />} 
+        element={<Register />}
       />
       <Route
         path="/"
@@ -75,16 +74,16 @@ useEffect(() => {
           isAuthenticated
             ? <SearchPage></SearchPage>
             : <AuthenticationPage setAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} />
-      }/>
+        } />
       <Route
         path="/:username"
         element={
           isAuthenticated
-          ? <Profilepage></Profilepage>
-          : <AuthenticationPage setAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated}></AuthenticationPage>
+            ? <Profilepage isAuthenticated={isAuthenticated}></Profilepage>
+            : <AuthenticationPage setAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated}></AuthenticationPage>
         }
       />
-      
+
     </Routes>
   );
 }

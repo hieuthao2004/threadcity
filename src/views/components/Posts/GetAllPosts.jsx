@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import LikeButton from './LikeButton'
-import RepostButton from './RepostButton'
-import SaveButton from './SaveButton'
-import HideButton from './HideButton'
-import DeleteButton from './DeleteButton'
-import '../../assets/styles/GetAllPosts.css'
+import LikeButton from '../Buttons/LikeButton'
+import RepostButton from '../Buttons/RepostButton'
+import SaveButton from '../Buttons/SaveButton'
+import HideButton from '../Buttons/HideButton'
+import DeleteButton from '../Buttons/DeleteButton'
+import '../../../assets/styles/GetAllPosts.css'
 
 const GetAllPosts = ({ currentUserId }) => {
   const [posts, setPosts] = useState([])

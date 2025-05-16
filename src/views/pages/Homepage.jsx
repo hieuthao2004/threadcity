@@ -1,13 +1,12 @@
 import CreatePost from '../components/CreatePost/CreatePostModal';
-import GetAllPosts from '../components/GetAllPosts';
+import GetAllPosts from '../components/Posts/GetAllPosts';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
 import Header from '../components/Header/Header';
 import '../../assets/styles/Homepage.css';
 import { useState } from 'react';
 import CreatePostModal from '../components/CreatePost/CreatePostModal';
 
-function Homepage({ userData }) {
-  
+function Homepage({ userData }) {  
   const [showModal, setShowModal] = useState(false);
   const handleOpenPostModal = () => {
     setShowModal(true)
